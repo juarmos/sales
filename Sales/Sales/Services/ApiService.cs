@@ -7,6 +7,9 @@
     using Newtonsoft.Json;
     using Plugin.Connectivity;
     using Sales.Common.Models;
+    using Sales.Helpers;
+    
+
     public class ApiService
     {
         public async Task<Response> CheckConnection()
@@ -16,7 +19,7 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Please turn on your internet settings.",
+                    Message = Languages.TurnOnInternet,
                 };
             }
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable(
@@ -26,7 +29,7 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Not Internet Navigation, Please Check your internet connection.",
+                    Message = Languages.NoInternet,
                 };
             }
 
