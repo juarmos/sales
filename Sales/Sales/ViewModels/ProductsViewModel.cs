@@ -34,12 +34,20 @@
             this.LoadProducts();
 
         }
-
         private async void LoadProducts()
         {
             IsRefreshing = true;
+            var connection = await this.apiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Accept");
+                return;
+            }
+            var url = Application.Current.Resources["UrlAPI"].ToString();
             var response = await this.apiService.GetList<Product>(
-                "http://192.168.0.22/SalesAPI", 
+                url, 
                 "/api", 
                 "/Products");
             if (!response.IsSuccess)
